@@ -14,8 +14,9 @@ export default class StatusUpdate extends React.Component
 							</div>
 							<div className="media-body">
 								<a href="#">
-								{this.props.author.FullName}
-								</a><br />
+								{this.props.author.fullName}
+								</a>
+								<br />
 								{
 									unixTimeToString(this.props.postDate)
 								}·{this.props.location}·
