@@ -12,9 +12,12 @@ class ProfilePage extends React.Component {
 	class App extends React.Component {render() {return(<div>{this.props.children}</div>)}}
 
 
-ReactDOM.render((<Router history={browserHistory}>
-	<Route path="/"component={App}>{/* Show the Feed at / */}
-<IndexRoute component={FeedPage}/>
-<Route path="profile/:id" component={ProfilePage} /></Route>
-</Router>),
+ReactDOM.render(
+	(<Router history={browserHistory}>
+		<Route path="/"component={App}>
+			{/* Show the Feed at / */}
+			<IndexRoute component={FeedPage}/>
+			<Route path="profile/:id" component={ProfilePage} />
+		</Route>
+	</Router>),
 document.getElementById('fb-feed'));

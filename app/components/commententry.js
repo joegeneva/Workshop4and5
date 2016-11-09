@@ -9,9 +9,11 @@ export default class CommentEntry extends React.Component {
 	}
 	handleKeyUp(e) {
 		if(e.key ==="Enter") {
-			var comment =this.state.value.trim();if(comment !=="") {
+			var comment =this.state.value.trim();
+			if(comment !=="") {
 				// Post comment
-				this.props.onPost(this.state.value);this.setState({ value:""});
+				this.props.onPost(this.state.value);
+				this.setState({ value:""});
 			}
 		}
 	}
