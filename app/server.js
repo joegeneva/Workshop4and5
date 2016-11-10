@@ -91,12 +91,15 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
 export function likeComment(feedItemId, userId, likeIndex, cb) {
   var feedItem = readDocument('feedItems', feedItemId);
   // Normally, we would check if the user already// liked this comment. But we will not do that// in this mock server. ('push' modifies the array// by adding userId to the end)
-  feedItem.comments[likeIndex].likeCounter.push(userId);
-  writeDocument('feedItems', feedItem);// Return a resolved version of the likeCounter
+  var userIndex = feedItem.comments[likeIndex].likeCounter.indexOf(userId);
+  if(userIndex < 0){
+    feedItem.comments[likeIndex].likeCounter.push(userId);
+    writeDocument('feedItems', feedItem);// Return a resolved version of the likeCounter
+  }
   var read = readDocument('feedItems', feedItemId);
   var findComment = read.comments[likeIndex].likeCounter;
-  emulateServerReturn(findComment.map((userId) =>readDocument('users', userId)), cb);
-  //emulateServerReturn(findComment, cb);
+  //emulateServerReturn(findComment.map((userId) =>readDocument('users', userId)), cb);
+  emulateServerReturn(findComment, cb);
   //emulateServerReturn(feedItem.comments[likeIndex].likeCounter.map((userId) =>readDocument('users', userId)), cb);
 }
 /*** Updates a comments likeCounter by removing* the user from the likeCounter.* Provides an updated likeCounter in the response.*/
@@ -111,6 +114,7 @@ export function unlikeComment(feedItemId, userId, likeIndex, cb) {
   }// Return a resolved version of the likeCounter
   var read = readDocument('feedItems', feedItemId);
   var findComment = read.comments[likeIndex].likeCounter;
-  emulateServerReturn(findComment.map((userId) =>readDocument('users', userId)), cb);
+  emulateServerReturn(findComment, cb);
+  //emulateServerReturn(findComment.map((userId) =>readDocument('users', userId)), cb);
   //emulateServerReturn(feedItem.comments[likeIndex].likeCounter.map((likeIndex) =>), cb);
 }

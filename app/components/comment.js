@@ -5,6 +5,7 @@ import React from 'react';
 export default class Comment extends React.Component{
 	constructor(props) {
 		super(props);// The FeedItem's initial state is what the Feed passed to us.
+		this.state = props;
 	}
 
 	/*** Triggered when the user clicks on the 'like'* or 'unlike' button.*/
@@ -14,18 +15,17 @@ export default class Comment extends React.Component{
 			var callbackFunction = (updatedLikeCounter) => {// setState will overwrite the 'likeCounter'// field on the current state, and will keep// the other fields in-tact. This is called a// shallow merge:// https://facebook.github.io/react/docs/component-api.html#setstate
 				this.setState({likeCounter: updatedLikeCounter});
 			};
-			var userLiked = this.didUserLike();
-			if(userLiked) {// User clicked 'unlike' button.
-				unlikeComment(this.props.feedItem, 4, this.props.index, callbackFunction);}
+			if(this.didUserLike()) {// User clicked 'unlike' button.
+				unlikeComment(this.state.feedItem, 4, this.state.index, callbackFunction);}
 			else{// User clicked 'like' button.
-				likeComment(this.props.feedItem, 4, this.props.index, callbackFunction);
+				likeComment(this.state.feedItem, 4, this.state.index, callbackFunction);
 			}
 		}
 	}
 
 	/*** Returns 'true' if the user liked the item.* Returns 'false' if the user has not liked the item.*/
 	didUserLike() {
-		var likeCounter =this.props.likeCounter;
+		var likeCounter =this.state.likeCounter;
 		var liked =false;// Look for a likeCounter entry with userId 4 -- which is the// current user.
 		for(var i = 0; i < likeCounter.length; i++) {
 			if(likeCounter[i] === 4) {
